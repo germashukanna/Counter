@@ -1,0 +1,26 @@
+.one {
+    color: #2d5252;
+    width: 150px;
+    padding-left: 35px;
+    font-size: 90px;
+    justify-content: center;
+
+}
+
+.five {
+    color: #ff0675;
+    width: 150px;
+    padding-left: 35px;
+    font-size: 90px;
+    justify-content: center;
+}
+
+.error {
+    color: #640426;
+    padding: 35px;
+
+}
+
+.set {
+    padding: 35px;
+}
