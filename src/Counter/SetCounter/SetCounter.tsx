@@ -1,7 +1,11 @@
 import {Input} from "../Input";
 import {Button} from "../Button";
-import {StatusType} from "../../App";
 import s from "./SetCounter.module.css"
+import {Dispatch} from "redux";
+import {collBackHandlerZeroAC, setCounterAC, setErrorAC} from "../../state/counterReduser";
+import React, {useEffect} from "react";
+import {StatusType} from "../../App";
+import {saveState} from "../../state/LocalStorage";
 
 
 type  SetCounterPropsType = {
@@ -10,31 +14,34 @@ type  SetCounterPropsType = {
     ChangeStartValue: (value: number) => void
     ChangeMaxValue: (value: number) => void
     status: StatusType
-    setStatus: (value: StatusType) => void
-    setCount: (value: number) => void
+    dispatch: Dispatch
 
 }
 
-export const SetCounter = (props: SetCounterPropsType) => {
+export const SetCounter: React.FC<SetCounterPropsType> = ({minValue, status, maxValue,
+                                                              ChangeMaxValue, ChangeStartValue, dispatch
+}) => {
 
-    if (props.maxValue <= props.minValue || props.minValue < 0) {
-        props.setStatus('error')
-    }
+    useEffect(() => {
+     (maxValue <= minValue || minValue < 0 || maxValue <= 0) && dispatch(setErrorAC())
+    })
+
     const setButtonOnChange = () => {
-        props.setStatus('counter')
-        props.setCount(props.minValue)
+        saveState(minValue, maxValue)
+        dispatch(setCounterAC())
+        dispatch(collBackHandlerZeroAC(minValue))
     }
 
     return (
         <div className={s.SetCounter}>
             <div className={s.InputModule}>
-                <span className={s.spanO}>MAX VALUE:</span> <Input setValue={props.maxValue} callBack={props.ChangeMaxValue}
-                                 error={props.maxValue <= props.minValue || props.maxValue <= 0}/>
-                <span className={s.spanT}>START VALUE:</span>  <Input setValue={props.minValue} callBack={props.ChangeStartValue}
-                                  error={props.status === "error"}/>
+                <span className={s.spanO}>MAX VALUE:</span> <Input setValue={maxValue} callBack={ChangeMaxValue}
+                                 error={maxValue <= minValue || maxValue <= 0}/>
+                <span className={s.spanT}>START VALUE:</span>  <Input setValue={minValue} callBack={ChangeStartValue}
+                                  error={status === "error"}/>
             </div>
             <div className={s.SetButtonModule}>
-                <Button name={'set'} callBack={setButtonOnChange} disabled={props.status !== 'set'}/>
+                <Button name={'set'} callBack={setButtonOnChange} disabled={status !== 'set'}/>
             </div>
         </div>
     )

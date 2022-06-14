@@ -1,7 +1,8 @@
 import {Button} from "../Button";
 import {Tables} from "../Tables";
-import {StatusType} from "../../App";
 import s from "./CounterModule.module.css"
+import {StatusType} from "../../App";
+
 
 type  CounterModulePropsType = {
     count: number

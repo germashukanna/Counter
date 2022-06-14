@@ -1,5 +1,8 @@
 import s from './Tables.module.css'
 import {StatusType} from "../App";
+import React from "react";
+
+
 
 
 type PropsTitleType = {
@@ -8,18 +11,18 @@ type PropsTitleType = {
     status: StatusType
 }
 
-export const Tables = (props: PropsTitleType) => {
+export const Tables: React.FC<PropsTitleType> = ({count, status, maxValue}) => {
     return (
-        props.status === 'error' ?
+        status === 'error' ?
             <div className={s.error}>
                 Incorrect value!
             </div> :
-            props.status === 'set' ?
+            status === 'set' ?
                 <div className={s.set}>
                     Enter values and press "SET"
                 </div> :
                 <div>
-                    <div className={props.count === props.maxValue ? s.five : s.one}>{props.count}</div>
+                    <div className={count === maxValue ? s.five : s.one}>{count}</div>
                 </div>
     )
 }
